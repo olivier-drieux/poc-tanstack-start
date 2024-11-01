@@ -1,0 +1,10 @@
+{
+    "editor.formatOnSave": true,
+    "typescript.preferences.autoImportFileExcludePatterns": [
+        "@radix-ui",
+        "postcss",
+        "recharts",
+        "vaul",
+        "react-day-picker"
+    ]
+}
