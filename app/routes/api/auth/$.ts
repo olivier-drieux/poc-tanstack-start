@@ -4,9 +4,11 @@ import { createAPIFileRoute } from '@tanstack/start/api';
 
 export const Route = createAPIFileRoute('/api/auth/$')({
     GET: ({ request }) => {
+        console.log('GET request');
         return authServer.handler(request);
     },
     POST: ({ request }) => {
+        console.log('POST request');
         return authServer.handler(request);
     },
 });

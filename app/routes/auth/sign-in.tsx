@@ -1,14 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { LoginForm } from '~/components/login-form'
+import { createFileRoute } from '@tanstack/react-router';
+import { SignInForm } from '@/components/form/sign-in-form';
 
 export const Route = createFileRoute('/auth/sign-in')({
-  component: SignIn,
-})
+    component: SignIn,
+});
 
 function SignIn() {
-  return (
-    <div className="container">
-      <LoginForm />
-    </div>
-  )
+    return (
+        <div className='container'>
+            <SignInForm />
+        </div>
+    );
 }

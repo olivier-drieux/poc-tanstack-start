@@ -1,9 +1,8 @@
 // app/routes/__root.tsx
+import '@/global.css';
+import globalStylesheet from '@/global.css?url';
 import { Outlet, ScrollRestoration, createRootRoute } from '@tanstack/react-router';
 import { Body, Head, Html, Meta, Scripts } from '@tanstack/start';
-import type { ReactNode } from 'react';
-import globalStylesheet from '@/global.css?url';
-import '@/global.css';
 
 export const Route = createRootRoute({
     meta: () => [
@@ -29,20 +28,12 @@ export const Route = createRootRoute({
 
 function RootComponent() {
     return (
-        <RootDocument>
-            <Outlet />
-        </RootDocument>
-    );
-}
-
-function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
-    return (
         <Html>
             <Head>
                 <Meta />
             </Head>
             <Body>
-                {children}
+                <Outlet />
                 <ScrollRestoration />
                 <Scripts />
             </Body>
