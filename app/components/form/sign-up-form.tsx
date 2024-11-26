@@ -1,32 +1,47 @@
 'use client';
 import { Link } from '@tanstack/react-router';
-import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { signUp } from '@/lib/auth/auth-client';
+import { useToast } from '@/hooks/use-toast';
+
+function randomString(length: number) {
+    const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
 
 export function SignUpForm() {
-    function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        const form = e.target as HTMLFormElement;
-        const data = new FormData(form);
-        console.log(data);
+    const { toast } = useToast();
+
+    function createUser() {
         signUp.email(
             {
-                name: data.get('name') as string,
-                email: data.get('email') as string,
-                password: data.get('password') as string,
+                name: randomString(8) as string,
+                email: randomString(8) + '@example.com',
+                password: randomString(12),
             },
             {
                 onError: (error) => {
                     console.warn(error);
-                    toast.error(error.error.message);
+                    toast({
+                        title: 'Error',
+                        variant: 'destructive',
+                        description: error.message,
+                    })
                 },
                 onSuccess: () => {
-                    toast.success('Account has been created!');
+                    toast({
+                        title: 'Success',
+                        color: 'green',
+                        description: 'Account has been created!',
+                    })
                 },
             }
         );
@@ -39,25 +54,9 @@ export function SignUpForm() {
                 <CardDescription>Enter your email below to sign up to an account</CardDescription>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleSubmit} className='grid gap-4'>
-                    <div className='grid gap-2'>
-                        <Label htmlFor='name'>Name</Label>
-                        <Input name='name' id='name' type='name' placeholder='John Doe' required />
-                    </div>
-                    <div className='grid gap-2'>
-                        <Label htmlFor='email'>Email</Label>
-                        <Input id='email' name='email' type='email' placeholder='m@example.com' required />
-                    </div>
-                    <div className='grid gap-2'>
-                        <div className='flex items-center'>
-                            <Label htmlFor='password'>Password</Label>
-                        </div>
-                        <Input id='password' name='password' type='password' required />
-                    </div>
-                    <Button type='submit' className='w-full'>
-                        Sign Up
-                    </Button>
-                </form>
+                <Button className='w-full' onClick={createUser}>
+                    Sign Up
+                </Button>
                 <div className='mt-4 text-center text-sm'>
                     Already have an account?{' '}
                     <Link to='/auth/sign-in' className='underline'>
